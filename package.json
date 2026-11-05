@@ -1,0 +1,57 @@
+{
+  "name": "socialpilot-ai",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "prisma generate && next build",
+    "start": "next start --hostname 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --configLoader runner",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate deploy",
+    "db:seed": "tsx prisma/seed.ts",
+    "jobs": "npx inngest-cli@latest dev -u http://localhost:3000/api/inngest",
+    "demo": "node scripts/local-demo.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.900.0",
+    "@aws-sdk/s3-request-presigner": "^3.900.0",
+    "@hookform/resolvers": "^5.2.0",
+    "@js-temporal/polyfill": "^0.5.1",
+    "@prisma/client": "6.19.0",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-slot": "^1.2.3",
+    "better-auth": "1.7.17",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "inngest": "^3.40.0",
+    "lucide-react": "^0.468.0",
+    "next": "16.4.5",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-hook-form": "^7.62.0",
+    "server-only": "^0.0.1",
+    "sharp": "^0.34.4",
+    "tailwind-merge": "^3.3.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.15",
+    "@electric-sql/pglite-socket": "^0.2.18",
+    "@playwright/test": "^1.64.1",
+    "@tailwindcss/postcss": "^4.1.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "dotenv": "^16.6.0",
+    "prisma": "6.19.0",
+    "tailwindcss": "^4.1.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.4"
+  },
+  "overrides": {
+    "@opentelemetry/api": "1.9.1"
+  }
+}

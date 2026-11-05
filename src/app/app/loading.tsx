@@ -1,0 +1,1 @@
+export default function Loading(){return <main className="app-loading" aria-busy="true" aria-label="Loading workspace"><div className="skeleton"/><div className="skeleton"/><p>Getting your workspace ready…</p></main>;}
