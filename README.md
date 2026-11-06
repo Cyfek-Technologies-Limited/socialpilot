@@ -169,3 +169,32 @@ Optional, demo only: register a user first, configure the database in `.env`, th
 Deploy this Node runtime application to Vercel or another Next.js-compatible Node host. Provision Neon, private object storage, Inngest, and provider secrets through that host's encrypted environment management. Apply migrations as a release step, then build and deploy. Keep worker durations sufficient for provider calls, configure reverse-proxy upload limits, and verify callback origins and HTTPS cookies. Use durable cloud Inngest for production, not the development harness.
 
 This source was **not deployed or published**. The Sites hosting workflow was assessed, but its Worker/Vinext starter differs from the explicitly requested Next.js/Prisma Node stack. No stack substitution was made. Keep `.env`, local test databases, `.next`, and `node_modules` out of source archives and repositories. The lockfile fixes the tested dependency resolution, including an OpenTelemetry peer compatibility override.
+
+## Meta Unified Login deployment
+
+The current Meta app uses Unified Login. Set these server variables in Vercel:
+
+- `INSTAGRAM_CLIENT_ID=999560325841779` (Meta App ID)
+- `INSTAGRAM_CONFIG_ID=1527568975877411`
+- `INSTAGRAM_CLIENT_SECRET` (Meta App Secret; never commit it)
+- `INSTAGRAM_API_VERSION=v26.0`
+- `APP_URL=https://socialpilot-amber.vercel.app`
+- `BETTER_AUTH_URL=https://socialpilot-amber.vercel.app`
+- `BETTER_AUTH_SECRET` and `TOKEN_ENCRYPTION_KEY` (stable server secrets)
+
+Register `https://socialpilot-amber.vercel.app/api/social/callback` in Meta.
+The app creates OAuth state internally; do not use the template's literal `<STATE>`.
+Unified Login exchanges codes on graph.facebook.com and discovers profiles via
+`me/assigned_instagram_accounts`. Share one Instagram account per connection;
+multiple accounts are rejected rather than choosing an account implicitly.
+Non-expiring tokens are stored with no expiry. Revoked credentials require reconnecting.
+Existing legacy Instagram Login deployments can leave `INSTAGRAM_CONFIG_ID` unset.
+
+Use `APP_MODE=live` with a separate live database and a live workspace. An existing
+demo workspace cannot be used by merely changing APP_MODE; the API rejects that mismatch.
+Apply migrations to the live database before using it. Redeploy after updating Vercel
+variables and code, sign in, create the live workspace, and use Social Accounts.
+Connecting an account does not grant publishing authorization.
+
+Local mocked provider tests cover URL parameters, code exchange, account discovery,
+and invalid selections. Real Meta authorization and deployment still require validation.
