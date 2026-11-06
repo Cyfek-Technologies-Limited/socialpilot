@@ -6,3 +6,112 @@
 /* Readable interface type and a horizontal workspace switcher. */
 .workspace-switch{flex-direction:row}.sidebar-link{font-size:12px}.workspace-switch select{font-size:12px}.workspace-switch small{font-size:8px}.topbar>div,.topbar strong{font-size:11px}.topbar-actions select{font-size:11px}.demo-banner{font-size:10px}.page-heading p{font-size:12px}.heading-actions .button{font-size:11px}.stat-card>div>span:first-child,.stat-card>span{font-size:12px}.stat-card>small{font-size:10px}.overview-grid .card-heading h2{font-size:16px}.overview-grid .card-heading p{font-size:11px}.overview-grid .empty-state h3{font-size:15px}.overview-grid .empty-state p{font-size:12px;max-width:360px}.overview-grid .empty-state .button{font-size:11px}.inspiration-card p{font-size:12px}.inspiration-card>.button{font-size:12px}.inspiration-card>small{font-size:10px}.attention-list strong,.activity-list strong{font-size:12px}.attention-list small,.activity-list small{font-size:10px}.sidebar-tip strong{font-size:12px}.sidebar-tip p{font-size:11px}.sidebar-tip button{font-size:10px}.profile strong{font-size:12px}.profile small{font-size:10px}.calendar-event strong{font-size:11px}.calendar-event small{font-size:9px}.calendar-weekdays>span,.calendar-day>span{font-size:11px}.calendar-filters select{font-size:11px}.calendar-legend{font-size:10px}.brand-grid>.card p{font-size:13px}.brand-card>p{min-height:0}.auth-card label,.onboarding-content label{font-size:13px}.auth-card>p,.onboarding-content>.muted{font-size:13px}.hero-note{font-size:11px}.feature-grid p{font-size:14px}.hero>p{font-size:15px}.marketing footer>span{font-size:12px}.closing-cta p{font-size:11px}
 @media(max-width:700px){.sidebar-link{font-size:12px}.demo-banner{font-size:9px}.stat-card>div>span:first-child{font-size:11px}.stat-card>small{font-size:9px}.heading-actions .button{font-size:11px}.overview-grid .card-heading h2{font-size:15px}.overview-grid .card-heading p{font-size:10px}.attention-list strong{font-size:11px}.attention-list small{font-size:9px}.calendar-event strong{font-size:8px}.calendar-event small{font-size:7px}.calendar-weekdays>span,.calendar-day>span{font-size:10px}.calendar-legend{font-size:8px}.hero>p{font-size:13px}.hero-note{font-size:9px}.workspace-switch{flex-direction:row}.app-footer{font-size:9px}}
+
+/* Accessible contrast and consistent pending states for authentication. */
+.auth-card>h1,.auth-aside h1{color:#44325f}
+.auth-aside h1 em{color:#65428a}
+.auth-card>p,.auth-card>.auth-switch,.auth-card>small,.auth-card>p:last-child,.auth-aside p,.auth-aside>small,.auth-aside .eyebrow{color:#5e526c}
+.auth-card label,.auth-card input{color:#392d49}
+.auth-card input{border-color:#b7a9c7}
+.auth-card input::placeholder{color:#6b6077}
+.auth-card input:focus{border-color:#6542aa}
+.auth-card>.badge{color:#604181;background:#ece4f6}
+.auth-switch a,.auth-card>.text-link,.auth-card>small a{color:#6035a0;font-weight:600}
+.auth-art>span,.auth-art>strong{color:#58416e}
+.auth-card form>.button{background:#6035a0;color:#fff;border-color:#6035a0;font-size:13px;min-height:44px}
+.auth-card form>.button:hover:not(:disabled){background:#482578;border-color:#482578;color:#fff}
+.auth-card form>.button:disabled{background:#6035a0;border-color:#6035a0;color:#fff;opacity:1;cursor:wait;transform:none}
+/* Richer onboarding palette with readable controls and clear progress. */
+.onboarding{--primary:#6336c5;--muted:#5e546f;background:#fcfaff}
+.onboarding>aside{background:linear-gradient(155deg,#ede3ff 0%,#f3edff 58%,#def5ee 100%);border-color:#d6c4ed}
+.onboarding>aside h1,.onboarding-content>h1{color:#35204f}
+.onboarding>aside h1 em{color:#7133b8}
+.onboarding>aside p,.onboarding-content>.muted,.onboarding-content .card p{color:#5c4c6d}
+.onboarding>aside .badge{background:#e0ceff;color:#542391;font-weight:700}
+.onboarding .logo{background:#6336c5;box-shadow:0 4px 12px #6336c52b}
+.onboarding .wordmark .ai{background:#e9dcff;color:#5a299b;border-color:#cab0ed}
+.onboarding li{color:#635373}
+.onboarding li>span{background:#e1d4f2;color:#503467;font-weight:700}
+.onboarding li.current{color:#5725a3}
+.onboarding li.current>span{background:#6336c5;color:#fff;box-shadow:0 0 0 4px #6336c51a}
+.onboarding li.complete{color:#14634f}
+.onboarding li.complete>span{background:#087f65;color:#fff}
+.onboarding-progress{color:#5f447a;font-weight:600}
+.onboarding progress{height:7px;background:#e8def5;accent-color:#6336c5}
+.onboarding progress::-webkit-progress-bar{background:#e8def5}
+.onboarding progress::-webkit-progress-value{background:linear-gradient(90deg,#6336c5,#9455dd)}
+.onboarding progress::-moz-progress-bar{background:#6336c5}
+.onboarding-content label{color:#423051}
+.onboarding-content input,.onboarding-content select,.onboarding-content textarea{border-color:#baabcb;color:#352641;background:#fff}
+.onboarding-content input::placeholder,.onboarding-content textarea::placeholder{color:#74637f}
+.onboarding-content input:focus,.onboarding-content select:focus,.onboarding-content textarea:focus{border-color:#7540c5;box-shadow:0 0 0 3px #7540c51a}
+.onboarding-content input[type=checkbox]{accent-color:#6336c5}
+.onboarding-content .button{background:#6336c5;border-color:#6336c5;color:#fff;min-height:44px;box-shadow:0 3px 10px #6336c520}
+.onboarding-content .button:hover:not(:disabled){background:#4c239e;border-color:#4c239e;color:#fff}
+.onboarding-content .button-outline{background:#fff;color:#592c99;border-color:#a68acb;box-shadow:none}
+.onboarding-content .button-outline:hover:not(:disabled){background:#eee4ff;color:#49227c;border-color:#7540c5}
+.onboarding-content .button:disabled{opacity:1;background:#e2d8f0;border-color:#d0bfdf;color:#645371;box-shadow:none}
+.onboarding-content .card{border-color:#d9c9ec;box-shadow:0 4px 18px #6336c50a}
+.onboarding-content .card h2{color:#482567}
+.onboarding-content .notice{background:#f0e9ff;border-color:#cdb5ef;color:#503371}
+.onboarding-content .notice p{color:#5c4475}
+.onboarding-back{color:#6230a7;font-weight:600}
+.onboarding-back:hover:not(:disabled){color:#431b7b;text-decoration:underline}
+/* Vibrant workspace palette, scoped to the dashboard. */
+.app-layout{--primary:#6336c5;--muted:#5b6275;--border:#e0dced;color:#29243d;background:#f6f4fc}
+.app-layout .sidebar{background:linear-gradient(180deg,#fff 0%,#f5f0ff 100%);border-color:#ded3ef}
+.app-layout .logo,.app-layout .workspace-avatar{background:#6336c5;color:#fff}
+.app-layout .sidebar-link{color:#554b69}
+.app-layout .sidebar-link svg{color:#76608f;stroke-width:1.8}
+.app-layout .sidebar-link:hover{background:#eae0fa;color:#512594}
+.app-layout .sidebar-link.active{background:#6336c5;color:#fff;box-shadow:0 4px 12px #6336c526}
+.app-layout .sidebar-link.active svg{color:#fff}
+.app-layout .nav-caption,.app-layout .workspace-switch small{color:#6a587d}
+.app-layout .sidebar-tip{background:linear-gradient(135deg,#e9dbff,#f4eaff);border-color:#ccb2ef;color:#6336a0}
+.app-layout .sidebar-tip strong,.app-layout .sidebar-tip button{color:#51258a;font-weight:600}
+.app-layout .sidebar-tip p{color:#635077}
+.app-layout .topbar strong,.app-layout .topbar .muted,.app-layout .topbar-actions>a{color:#544466}
+.app-layout .demo-banner{background:#fff0c7;color:#75500b;border-color:#ebd08a}
+.app-layout .demo-banner .badge{background:#ffe19a;color:#704600}
+.app-layout .page-heading h1{color:#34204e}
+.app-layout .page-heading p,.app-layout .card p{color:#5e566d}
+.app-layout .eyebrow{color:#7042a3}
+.app-layout .card{border-color:#e0d5ee;box-shadow:0 4px 16px #3c225c06}
+.app-layout .card-heading h2{color:#3c2855}
+.app-layout .card-heading>svg{color:#7543b4}
+.app-layout .stat-card{border-color:#d9c4f1;background:linear-gradient(130deg,#fff,#f0e7ff);box-shadow:0 4px 14px #6336c50a;border-top:3px solid #7841c9}
+.app-layout .stat-card:nth-child(2){background:linear-gradient(130deg,#fff,#fff0d9);border-color:#ecd0a4;border-top-color:#cf8111}
+.app-layout .stat-card:nth-child(3){background:linear-gradient(130deg,#fff,#e6efff);border-color:#c2d4ef;border-top-color:#3672d5}
+.app-layout .stat-card:nth-child(4){background:linear-gradient(130deg,#fff,#dff5ee);border-color:#adddce;border-top-color:#098566}
+.app-layout .stat-card>strong{color:#352047;font-weight:650}
+.app-layout .stat-card>div>span:first-child,.app-layout .stat-card>span,.app-layout .stat-card>small{color:#5e526c}
+.app-layout .stat-icon.purple{background:#e4d4ff;color:#6c2db6}
+.app-layout .stat-icon.amber{background:#ffe7b5;color:#946000}
+.app-layout .stat-icon.blue{background:#dbe8ff;color:#255bb5}
+.app-layout .stat-icon.green{background:#c9f0e1;color:#086b50}
+.app-layout .button-primary{background:#6336c5;color:#fff;box-shadow:0 3px 9px #6336c522}
+.app-layout .button-primary:hover:not(:disabled){background:#4c239e;color:#fff}
+.app-layout .button-outline{border-color:#baa2d5;color:#5e318f;background:#fff}
+.app-layout .button-outline:hover:not(:disabled){background:#eee4ff;border-color:#8152bb;color:#48216f}
+.app-layout .text-link{color:#6630a5}
+.app-layout .empty-state>span{background:#eee3ff;border-color:#b79bdc;color:#7338b5}
+.app-layout .empty-state h3,.app-layout .overview-grid .empty-state h3{color:#49335f;font-weight:600}
+.app-layout .empty-state p,.app-layout .overview-grid .empty-state p{color:#655771}
+.app-layout .overview-grid .empty-state .button{color:#5e318f;border-color:#baa2d5}
+.app-layout .inspiration-card{background:linear-gradient(125deg,#e9d6ff,#e3ddff 60%,#d7f3ec);border-color:#bfa2e4}
+.app-layout .inspiration-card h2{color:#47216d}
+.app-layout .inspiration-card p,.app-layout .inspiration-card>small{color:#5c4376}
+.app-layout .inspiration-card .badge{background:#dac2fa;color:#512188}
+.app-layout .inspiration-card>.button{background:#6336c5;color:#fff}
+.app-layout .inspiration-card>.button:hover:not(:disabled){background:#4c239e}
+.app-layout .attention-list strong,.app-layout .activity-list strong{color:#4b355f;font-weight:600}
+.app-layout .attention-list small,.app-layout .activity-list small{color:#6c5c78}
+.app-layout .attention-list b,.app-layout .attention-list>a>svg{color:#7137ad}
+.app-layout .activity-dot{background:#8b45cb}
+.app-layout .badge{background:#ece6f4;color:#60516e}
+.app-layout .badge.success{background:#d8f3e7;color:#096246}
+.app-layout .badge.warning{background:#ffebbd;color:#805000}
+.app-layout .badge.danger{background:#ffe0e7;color:#a12645}
+.app-layout .badge.purple{background:#e8d9ff;color:#642aa1}
+.app-layout .notice{background:#efe6ff;border-color:#cfb8ec;color:#56327e}
+.app-layout .notice p{color:#634978}
