@@ -1,2 +1,3 @@
 import { AuthForm } from '@/components/auth-form';
-export default function Page(){return <AuthForm mode="sign-up"/>;}
+import { redirectIfSignedIn } from '@/lib/session';
+export default async function Page(){await redirectIfSignedIn();return <AuthForm mode="sign-up"/>;}

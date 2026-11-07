@@ -1,0 +1,24 @@
+.shell{position:relative;isolation:isolate;background:#76bce4}
+.hero.hero{position:relative;min-height:720px;height:min(69vw,940px);max-width:none;width:100%;margin:0;padding:132px 6% 0;text-align:left;overflow:hidden;background:linear-gradient(115deg,#589dc6,#8bcbe8)}
+.artwork{object-fit:cover;object-position:center bottom;z-index:0;top:70px!important;height:calc(100% - 70px)!important;mask-image:linear-gradient(to bottom,transparent,#000 23%);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 23%)}
+.hero.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#327ba947 0%,#6aafcf16 35%,transparent 58%);z-index:1;pointer-events:none}
+.hero.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#ffffff08 0%,#ffffff05 34%,#ffffff22 49%,#ffffff80 72%,#fdfcfeee 94%,#fdfcfe 100%);pointer-events:none;z-index:1}
+.hero.hero :global(.hero-intro){position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) 210px;align-items:start;gap:70px;max-width:1280px;margin:0 auto}
+.hero.hero h1{color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:clamp(42px,4.65vw,72px);font-weight:650;line-height:1.17;letter-spacing:-1.5px;margin:0;max-width:none;text-shadow:0 1px 12px #225a7e12}
+.hero.hero h1 em{color:#fff;font-family:Arial,Helvetica,sans-serif;font-size:inherit;font-style:italic;font-weight:200;letter-spacing:-1.8px;white-space:nowrap}
+.hero.hero :global(.hero-summary){display:flex;flex-direction:column;align-items:flex-start;gap:22px;width:auto;padding-top:17px}
+.hero.hero :global(.hero-summary) p{font-size:14px;line-height:1.65;color:#fff;margin:0;max-width:210px;text-shadow:0 1px 5px #24639925}
+.hero.hero :global(.hero-cta){display:inline-flex;gap:12px;min-height:36px;padding:10px 19px;background:#fff;color:#173c55;border:0;border-radius:999px;font-size:11px;font-weight:700;box-shadow:0 3px 10px #286f9210}
+.hero.hero :global(.hero-cta):hover{background:#eaf6ff;color:#103857;transform:translateY(-2px)}
+.nav.nav{position:absolute;inset:0 0 auto;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1440px;margin:0 auto;padding:20px 6%;background:transparent;border:0}
+.nav.nav :global(.wordmark){color:#fff;font-size:20px;letter-spacing:-.5px}
+.nav.nav :global(.logo){width:29px;height:29px;border-radius:50%;background:#ffffff26;color:#fff;border:1px solid #ffffff90;box-shadow:none}
+.nav.nav :global(.wordmark .ai){background:#ffffff20;border-color:#ffffff60;color:#fff}
+.nav.nav :global(.nav-links){display:flex;align-items:center;gap:22px;padding:4px 4px 4px 20px;border:1px solid #fff;border-radius:999px;background:#ffffffef;box-shadow:0 0 0 4px #ffffff33}
+.nav.nav :global(.nav-links)>a{color:#24455a;font-size:10px}
+.nav.nav :global(.nav-links)>a:hover{color:#0872bc}
+.nav.nav :global(.button-primary){background:#2688c7;color:#fff!important;border:1px solid #ffffffb3;border-radius:999px;box-shadow:0 0 0 3px #59a7d744;min-height:31px;padding:8px 15px;font-size:10px}
+.nav.nav :global(.button-primary):hover{background:#126fae}
+@media(min-width:1600px){.hero.hero{padding-top:145px}}
+@media(max-width:1050px){.hero.hero{padding-top:115px;min-height:680px}.hero.hero :global(.hero-intro){grid-template-columns:minmax(0,1fr) 175px;gap:30px}.hero.hero h1{font-size:clamp(36px,4.7vw,49px)}.hero.hero :global(.hero-summary){padding-top:10px}.hero.hero :global(.hero-summary) p{font-size:12px}.nav.nav :global(.nav-links){gap:16px}}
+@media(max-width:700px){.nav.nav{padding:20px;gap:12px}.nav.nav :global(.wordmark){font-size:17px}.nav.nav :global(.nav-links){padding:4px;gap:5px}.nav.nav :global(.nav-links)>a:nth-child(-n+2){display:none}.nav.nav :global(.nav-links)>a:nth-child(3){font-size:10px;padding:0 8px}.nav.nav :global(.button-primary){font-size:9px;padding:8px 11px}.nav.nav :global(.button-primary) svg{display:none}.hero.hero{padding:112px 24px 0;height:760px;min-height:0}.hero.hero :global(.hero-intro){display:flex;flex-direction:column;gap:22px}.hero.hero h1{font-size:clamp(32px,8.3vw,50px);letter-spacing:-1px;line-height:1.16}.hero.hero h1 em{letter-spacing:-1px}.hero.hero :global(.hero-summary){padding:0;gap:15px}.hero.hero :global(.hero-summary) p{max-width:255px;font-size:12px}.artwork{top:auto!important;bottom:0!important;height:470px!important;object-fit:cover;object-position:center bottom;mask-image:linear-gradient(transparent,#000 28%);-webkit-mask-image:linear-gradient(transparent,#000 28%)}.hero.hero::after{background:linear-gradient(180deg,transparent 35%,#ffffff18 50%,#ffffff85 78%,#fdfcfe 100%)}}

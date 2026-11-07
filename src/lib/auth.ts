@@ -11,6 +11,8 @@ function createAuth() {
         const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${required('RESEND_API_KEY')}`,'Content-Type':'application/json'},body:JSON.stringify({from:required('EMAIL_FROM'),to:user.email,subject:'Reset your SocialPilot AI password',text:`Reset your password: ${url}`})});
         if(!response.ok) throw new Error('Password reset delivery failed.');
       }} : {}) },
+    // A persistent cookie with a fixed seven-day lifetime from sign-in.
+    session: { expiresIn: 60 * 60 * 24 * 7, disableSessionRefresh: true },
     rateLimit: {enabled:true,storage:'database',window:60,max:60},
     logger:{level:'error',log(){console.error('Authentication operation failed. Check database connectivity and server configuration.');}},
     plugins:[nextCookies()]

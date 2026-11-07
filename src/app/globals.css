@@ -115,3 +115,11 @@
 .app-layout .badge.purple{background:#e8d9ff;color:#642aa1}
 .app-layout .notice{background:#efe6ff;border-color:#cfb8ec;color:#56327e}
 .app-layout .notice p{color:#634978}
+.onboarding-skip{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px}
+.onboarding-skip>span{color:#5e526c;font-size:12px;line-height:1.6}
+.onboarding-skip>.button{border-color:#a68acb;color:#592c99;background:#fff;white-space:nowrap}
+.onboarding-skip>.button:hover:not(:disabled){background:#eee4ff;border-color:#7540c5}
+.setup-later-notice{align-items:center;flex-wrap:wrap}
+.setup-later-notice>div{flex:1;min-width:180px}
+.setup-later-notice p{margin:3px 0 0}
+@media(max-width:700px){.onboarding-skip{align-items:flex-start;margin-bottom:25px;gap:12px}.onboarding-skip>span{font-size:11px;max-width:160px}.onboarding-skip>.button{font-size:11px;padding:9px 12px}.setup-later-notice>.button{margin-left:34px}}

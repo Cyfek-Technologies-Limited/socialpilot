@@ -1,0 +1,16 @@
+.page{background:#faf9fd;color:#30233f;min-height:100vh;padding:0 6% 70px}
+.nav{max-width:1160px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 0;border-bottom:1px solid #e4dbef}
+.nav>a:last-child{display:flex;align-items:center;gap:8px;font-size:12px;color:#6536a4}
+.brand{display:flex;align-items:center;gap:8px;font-size:21px;font-weight:700;letter-spacing:-.6px}
+.brand>svg{color:#6836bb}.brand>span{font-size:10px;border:1px solid #d8c8ee;border-radius:5px;padding:3px 5px;color:#6836bb}
+.header{max-width:1160px;margin:0 auto;padding:65px 0 48px;border-bottom:1px solid #e4dbef}
+.kicker{display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;letter-spacing:1.5px;color:#713caf}
+.header h1{font-size:clamp(38px,5vw,62px);letter-spacing:-2px;line-height:1.1;margin:20px 0;color:#342044}
+.header>p{font-size:16px;line-height:1.8;max-width:570px;color:#665772}
+.updated{font-size:12px;color:#786587}
+.layout{max-width:1160px;margin:45px auto 0;display:grid;grid-template-columns:230px minmax(0,1fr);gap:70px;align-items:start}
+.contents{position:sticky;top:25px}.contents>strong{font-size:12px;color:#493256}.contents nav{display:flex;flex-direction:column;gap:15px;margin-top:22px}.contents a{font-size:12px;line-height:1.5;color:#776080}.contents a:hover{color:#6d2bb5;text-decoration:underline}
+.article{max-width:770px}.article p,.article li{font-size:14px;line-height:1.9;color:#61536c}.article>p:first-child{font-size:16px;color:#493953}.article section{scroll-margin-top:30px;margin-top:38px}.article h2{font-size:21px;line-height:1.4;color:#3d2850;margin-bottom:14px}.article ul{padding-left:20px}.article li{padding-left:4px;margin-bottom:11px}.article li strong{color:#493256}
+.contact{padding:24px;background:#eee5fa;border:1px solid #dcc9ee;border-radius:12px}.contact>strong{color:#4b256c}.contact p{margin:8px 0}.contact a{display:inline-flex;align-items:center;gap:8px;color:#65339c;font-weight:600;overflow-wrap:anywhere}
+.back{display:inline-flex;align-items:center;gap:8px;color:#6937a6;margin-top:42px;font-size:13px}
+@media(max-width:800px){.page{padding:0 6% 45px}.header{padding:40px 0 30px}.header>p{font-size:14px}.layout{grid-template-columns:1fr;gap:30px;margin-top:30px}.contents{position:static;padding:20px;background:#f0eaf7;border-radius:10px}.contents nav{display:grid;grid-template-columns:1fr 1fr;gap:12px}.article p,.article li{font-size:13px}.article h2{font-size:20px}.nav{padding:20px 0}.brand{font-size:18px}}
