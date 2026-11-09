@@ -198,3 +198,40 @@ Connecting an account does not grant publishing authorization.
 
 Local mocked provider tests cover URL parameters, code exchange, account discovery,
 and invalid selections. Real Meta authorization and deployment still require validation.
+
+## LinkedIn: personal profiles and company pages
+
+Create an app at https://www.linkedin.com/developers/apps and associate it with
+an authorized LinkedIn company page. Request these products as appropriate:
+
+- Sign In with LinkedIn using OpenID Connect (`openid`, `profile`).
+- Share on LinkedIn (`w_member_social`) for personal-profile publishing.
+- Community Management API access for company pages (`w_organization_social`,
+  `r_organization_admin`). Company access is subject to LinkedIn approval.
+
+Register this exact authorized redirect URL in the LinkedIn app's Auth tab:
+`https://socialpilot-amber.vercel.app/api/social/linkedin/callback`.
+For another deployment, use its APP_URL plus `/api/social/linkedin/callback`.
+
+Set LINKEDIN_CLIENT_ID, LINKEDIN_CLIENT_SECRET, and LINKEDIN_API_VERSION=202610
+on Vercel and redeploy. Keep TOKEN_ENCRYPTION_KEY stable. In a live workspace,
+create/select a brand, then open Social Accounts. Connect a personal profile or
+enter a numeric company page ID from its LinkedIn admin URL and connect the page.
+Company access is checked against approved administrator roles returned by LinkedIn;
+arbitrary organization IDs cannot be attached without administrator permission.
+Each connection grants no publishing consent until explicitly authorized in the app.
+
+The integration supports approved scheduled text or single-image posts using the
+Posts and Images APIs. Tokens are encrypted at rest, have provider expiry, and
+require reconnection when expired; automatic LinkedIn refresh and LinkedIn comment,
+DM, and analytics ingestion are not implemented. Instagram refresh/comment jobs
+exclude LinkedIn accounts. Ambiguous publishing results require manual inspection
+on LinkedIn before retrying, to prevent duplicate posts. Keep the durable worker
+running for scheduled deliveries. No live LinkedIn authorization or post has been
+verified until real developer credentials and approved products are configured.
+
+Official references:
+- https://learn.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow
+- https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2
+- https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/posts-api
+- https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/images-api

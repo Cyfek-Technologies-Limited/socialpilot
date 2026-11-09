@@ -123,3 +123,5 @@
 .setup-later-notice>div{flex:1;min-width:180px}
 .setup-later-notice p{margin:3px 0 0}
 @media(max-width:700px){.onboarding-skip{align-items:flex-start;margin-bottom:25px;gap:12px}.onboarding-skip>span{font-size:11px;max-width:160px}.onboarding-skip>.button{font-size:11px;padding:9px 12px}.setup-later-notice>.button{margin-left:34px}}
+.linkedin-icon{display:inline-flex;align-items:center;justify-content:center;background:#dfedff;color:#0a66c2;width:44px;height:44px;border-radius:12px;margin-bottom:18px}
+.linkedin-connect-card>h2{margin-bottom:10px}.linkedin-connect-card>p{min-height:48px}.linkedin-company{border-top:1px solid #ded8e9;margin-top:24px;padding-top:20px}.linkedin-company p{font-size:12px}.linkedin-company small{color:#686074;font-weight:400;line-height:1.6}.linkedin-connect-card .button{white-space:normal}

@@ -1,0 +1,10 @@
+'use client';
+import { useState } from 'react';
+import Link from 'next/link';
+import { Linkedin, ArrowRight, Plus } from 'lucide-react';
+import { Button } from './ui/button';
+export function LinkedInConnect({workspaceId,brandId,ready,canManage,live}:{workspaceId:string;brandId:string;ready:boolean;canManage:boolean;live:boolean}){
+ const [organization,setOrganization]=useState('');
+ const base=`/api/social/linkedin/connect?workspace=${encodeURIComponent(workspaceId)}&brand=${encodeURIComponent(brandId)}`;
+ return <article className="card linkedin-connect-card"><span className="linkedin-icon"><Linkedin/></span><h2>Connect LinkedIn</h2><p>Publish to your personal profile or a company page you administer.</p>{!brandId?<Link href="/app/brands" className="button button-outline"><Plus size={15}/> Add a brand first</Link>:!canManage?<p>Ask a workspace owner or admin to connect LinkedIn.</p>:!live?<p>LinkedIn connections require a live workspace.</p>:!ready?<div className="notice">LinkedIn setup required: configure your developer app credentials on the server.</div>:<><a className="button button-primary" href={`${base}&kind=personal`}>Connect personal profile <ArrowRight size={15}/></a><div className="linkedin-company"><h3>Company page</h3><p>Requires LinkedIn Community Management access and page administrator permissions.</p><form action="/api/social/linkedin/connect" method="GET"><input type="hidden" name="workspace" value={workspaceId}/><input type="hidden" name="brand" value={brandId}/><input type="hidden" name="kind" value="company"/><label>Company page ID<input name="organization" value={organization} onChange={e=>setOrganization(e.target.value)} inputMode="numeric" pattern="[0-9]{1,30}" required placeholder="e.g. 12345678"/><small>Use the numeric ID from your LinkedIn page's admin URL.</small></label><Button type="submit" variant="outline" disabled={! /^[0-9]{1,30}$/.test(organization)}>Connect company page <ArrowRight size={15}/></Button></form></div></>}</article>;
+}

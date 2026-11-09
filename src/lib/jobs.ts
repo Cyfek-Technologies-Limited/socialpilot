@@ -1,3 +1,4 @@
+import { linkedInUploadImage, linkedInPublish } from './providers/linkedin';
 import 'server-only';
 import { Inngest } from 'inngest';
 import { randomUUID } from 'node:crypto';
@@ -24,16 +25,22 @@ export async function deliver(postId:string,expectedKey:string) {
     let providerPostId:string;
     if(workspace.mode==='demo') providerPostId=`demo_${expectedKey}`;
     else {
-      if(!post.media||!account.encryptedToken)throw new Error('A media asset and valid token are required for Instagram image publishing.');
-      if(account.tokenExpiresAt&&account.tokenExpiresAt<=new Date())throw new Error('Instagram token expired. Reconnect account.');
+      if(!account.encryptedToken)throw new Error('A valid account token is required.');
+      if(!['instagram','linkedin'].includes(account.platform)||post.platform!==account.platform)throw new Error('Post platform does not match its connected account.');
+      if(account.tokenExpiresAt&&account.tokenExpiresAt<=new Date())throw new Error('Account token expired. Reconnect account.');
       const token=decrypt(account.encryptedToken);
       let container=post.providerContainerId;
-      if(!container){container=await instagram.container(account.providerAccountId,token,await storage.url(post.media.storageKey,86400),[post.caption,post.hashtags].filter(Boolean).join('\n\n'));await db.platformPost.update({where:{id:post.id},data:{providerContainerId:container}});}
-      const status=await instagram.containerStatus(container,token);if(status!=='FINISHED')throw new Error(`Media is ${status}. Retry once processing finishes.`);
+      if(account.platform==='linkedin'){
+        if(post.media&&!container){const response=await fetch(await storage.url(post.media.storageKey,3600),{signal:AbortSignal.timeout(30000)});if(!response.ok)throw new Error('Media download failed.');container=await linkedInUploadImage(account.providerAccountId,token,new Uint8Array(await response.arrayBuffer()));await db.platformPost.update({where:{id:post.id},data:{providerContainerId:container}});}
+      }else{
+        if(!post.media)throw new Error('Instagram requires an image.');
+        if(!container){container=await instagram.container(account.providerAccountId,token,await storage.url(post.media.storageKey,86400),[post.caption,post.hashtags].filter(Boolean).join('\n\n'));await db.platformPost.update({where:{id:post.id},data:{providerContainerId:container}});}
+        const status=await instagram.containerStatus(container,token);if(status!=='FINISHED')throw new Error(`Media is ${status}. Retry once processing finishes.`);
+      }
       // Recheck pause, consent, approval, and revision immediately before the irreversible request.
       const latest=await db.platformPost.findUniqueOrThrow({where:{id:post.id},include:{account:true,approvals:true,contentItem:{include:{brand:{include:{workspace:true}}}}}});
       publishGuard({approvalState:latest.approvalState,version:latest.version,approvedVersion:latest.approvals.find(a=>a.version===latest.version)?.version,workspacePaused:latest.contentItem.brand.workspace.paused,brandPaused:latest.contentItem.brand.paused,accountStatus:latest.account?.status||'DISCONNECTED',mode:appMode(),accountMode:latest.account?.mode||'',hasConsent:!!latest.account?.autoPublishConsentAt});
-      externalWrite=true;providerPostId=await instagram.publish(account.providerAccountId,token,container);
+      externalWrite=true;providerPostId=account.platform==='linkedin'?await linkedInPublish(account.providerAccountId,token,[post.caption,post.hashtags].filter(Boolean).join('\n\n'),container||undefined):await instagram.publish(account.providerAccountId,token,container!);
       if(!providerPostId)throw new AmbiguousDelivery('Instagram returned no publication ID. Reconciliation required.');
     }
     await db.$transaction([
@@ -77,11 +84,11 @@ export const recoverStale=inngest.createFunction({id:'recover-interrupted-work',
   await db.backgroundJob.updateMany({where:{status:'RUNNING',updatedAt:{lt:cutoff}},data:{status:'FAILED',error:'Worker interrupted. Retry this job.'}});return true;
 }));
 export const syncComments=inngest.createFunction({id:'sync-comments',retries:2},{cron:'*/5 * * * *'},async({step})=>step.run('sync',async()=>{
-  if(appMode()==='demo')return {demo:true};const posts=await db.platformPost.findMany({where:{deliveryState:'PUBLISHED',account:{status:'CONNECTED',mode:'live'},providerPostId:{not:null}},include:{account:true},orderBy:{publishedAt:'desc'},take:30});let count=0;
+  if(appMode()==='demo')return {demo:true};const posts=await db.platformPost.findMany({where:{deliveryState:'PUBLISHED',account:{status:'CONNECTED',mode:'live',platform:'instagram'},providerPostId:{not:null}},include:{account:true},orderBy:{publishedAt:'desc'},take:30});let count=0;
   for(const post of posts){if(!post.account?.encryptedToken)continue;try{for(const c of await instagram.comments(post.providerPostId!,decrypt(post.account.encryptedToken))){await db.comment.upsert({where:{postId_providerCommentId:{postId:post.id,providerCommentId:c.id}},create:{workspaceId:post.workspaceId,postId:post.id,providerCommentId:c.id,author:c.username||'Instagram user',text:c.text,createdAt:new Date(c.timestamp)},update:{text:c.text}});count++;}}catch{await db.notification.create({data:{workspaceId:post.workspaceId,message:'Comment sync needs attention. Check Instagram connection and permissions.'}});}}return {count};
 }));
 export async function enqueue(workspaceId:string,kind:'plan'|'image',payload:Record<string,string|number>) {const id=randomUUID();return serial(async tx=>{await reserve(tx,workspaceId,kind==='image'?'image':'text',`job:${id}`);return tx.backgroundJob.create({data:{id,workspaceId,kind,key:`job:${id}`,payload}});});}
 export const refreshCredentials=inngest.createFunction({id:'refresh-instagram-tokens',retries:2},{cron:'0 3 * * *'},async({step})=>step.run('refresh',async()=>{
-  if(appMode()!=='live')return {demo:true};const accounts=await db.socialAccount.findMany({where:{mode:'live',status:'CONNECTED',tokenExpiresAt:{lt:new Date(Date.now()+14*86400000)},encryptedToken:{not:null}}});
+  if(appMode()!=='live')return {demo:true};const accounts=await db.socialAccount.findMany({where:{platform:'instagram',mode:'live',status:'CONNECTED',tokenExpiresAt:{lt:new Date(Date.now()+14*86400000)},encryptedToken:{not:null}}});
   for(const account of accounts){try{if(account.tokenExpiresAt&&account.tokenExpiresAt<=new Date())throw new Error('Expired');const token=await refreshToken(decrypt(account.encryptedToken!));await db.socialAccount.update({where:{id:account.id},data:{encryptedToken:encrypt(token.access_token),tokenExpiresAt:new Date(Date.now()+token.expires_in*1000)}});}catch{await db.socialAccount.update({where:{id:account.id},data:{status:'RECONNECT_REQUIRED'}});await db.notification.create({data:{workspaceId:account.workspaceId,message:`Reconnect @${account.username}: automatic credential refresh failed.`}});}}return {checked:accounts.length};
 }));

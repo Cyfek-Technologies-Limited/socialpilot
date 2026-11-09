@@ -6,7 +6,7 @@ import { encrypt } from '@/lib/crypto';
 import { exchangeCode, instagram } from '@/lib/providers/social';
 import { serial } from '@/lib/usage';
 export async function GET(request:Request){try{
-  if(appMode()!=='live')throw new Error('Not live mode.');const url=new URL(request.url);const state=url.searchParams.get('state');const code=url.searchParams.get('code');if(!state||!code)throw new Error('Missing OAuth state or code.');
+  if(appMode()!=='live')throw new Error('Not live mode.');const url=new URL(request.url);const state=url.searchParams.get('state');const code=url.searchParams.get('code');if(!state||!/^[a-f0-9]{64}$/.test(state)||!code)throw new Error('Missing OAuth state or code.');
   const record=await db.oAuthState.findUnique({where:{id:state}});if(!record||record.expiresAt<new Date())throw new Error('Expired state.');const {actor,workspace}=await brandAccess(record.workspaceId,record.brandId,'manage');if(record.userId!==actor.id||workspace.mode!=='live')throw new Error('OAuth user mismatch.');
   const consumed=await db.oAuthState.deleteMany({where:{id:state,expiresAt:{gt:new Date()}}});if(consumed.count!==1)throw new Error('State already used.');
   const credentials=await exchangeCode(code);const profile=await instagram.profile(credentials.token);const encryptedToken=encrypt(credentials.token);
