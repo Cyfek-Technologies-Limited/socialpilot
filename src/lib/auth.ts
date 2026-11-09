@@ -8,7 +8,7 @@ function createAuth() {
   return betterAuth({ secret: required('BETTER_AUTH_SECRET'), baseURL: required('BETTER_AUTH_URL'), database: prismaAdapter(db, {provider:'postgresql'}),
     emailAndPassword: { enabled:true, minPasswordLength:12, maxPasswordLength:128,
       ...(process.env.RESEND_API_KEY && process.env.EMAIL_FROM ? { sendResetPassword: async ({user,url}:{user:{email:string};url:string}) => {
-        const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${required('RESEND_API_KEY')}`,'Content-Type':'application/json'},body:JSON.stringify({from:required('EMAIL_FROM'),to:user.email,subject:'Reset your SocialPilot AI password',text:`Reset your password: ${url}`})});
+        const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${required('RESEND_API_KEY')}`,'Content-Type':'application/json'},body:JSON.stringify({from:required('EMAIL_FROM'),to:user.email,subject:'Reset your Soville password',text:`Reset your password: ${url}`})});
         if(!response.ok) throw new Error('Password reset delivery failed.');
       }} : {}) },
     // A persistent cookie with a fixed seven-day lifetime from sign-in.

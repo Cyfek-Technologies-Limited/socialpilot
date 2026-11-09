@@ -1,0 +1,3 @@
+Soville logo
+Generated with the built-in image generation tool.
+Final refinement prompt: Preserve the interlocking S and two directional ribbon shapes. Remove glow, haze, bloom, shadows and black background. Crisp royal-blue and violet ribbons on a transparent square canvas, centered. No text or extra shapes.
