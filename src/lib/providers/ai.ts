@@ -1,7 +1,7 @@
 import 'server-only';
 import { z } from 'zod';
 import { required } from '../config';
-export const planSchema=z.object({items:z.array(z.object({topic:z.string().min(1).max(200),category:z.enum(['educational','promotional','community','informational']),audience:z.string().max(1000),objective:z.string().max(500),caption:z.string().min(1).max(2100),cta:z.string().max(200),graphicBrief:z.string().max(1500),platform:z.literal('instagram')})).min(1).max(14)});
+export const planSchema=z.object({items:z.array(z.object({topic:z.string().min(1).max(200),category:z.enum(['educational','promotional','community','informational']),audience:z.string().max(1000),objective:z.string().max(500),caption:z.string().min(1).max(2100),cta:z.string().max(200),graphicBrief:z.string().max(1500),platform:z.enum(['instagram','linkedin'])})).min(1).max(31)});
 export interface TextProvider { generate(system:string,input:unknown):Promise<string>; }
 export const textProvider:TextProvider={async generate(system,input){
   const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',signal:AbortSignal.timeout(60000),headers:{Authorization:`Bearer ${required('OPENAI_API_KEY')}`,'Content-Type':'application/json'},body:JSON.stringify({model:required('OPENAI_TEXT_MODEL'),messages:[{role:'system',content:system},{role:'user',content:JSON.stringify(input)}],response_format:{type:'json_object'}})});

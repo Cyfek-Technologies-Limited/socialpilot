@@ -235,3 +235,35 @@ Official references:
 - https://learn.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin-v2
 - https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/posts-api
 - https://learn.microsoft.com/en-us/linkedin/marketing/community-management/shares/images-api
+
+## LinkedIn autopilot
+
+Automation now offers per-brand LinkedIn autopilot for Monday, Wednesday, and
+Friday at 09:00 Africa/Lagos. It prepares upcoming slots up to 36 hours ahead.
+The user chooses a connected LinkedIn account and explicitly enables automatic
+publishing once. Captions and short graphic copy are AI-generated using verified
+brand knowledge; graphics are rendered as branded 1080x1080 PNG designs. No image
+API is required for this graphic mode.
+
+Required server configuration:
+- OPENAI_API_KEY and OPENAI_TEXT_MODEL for content generation.
+- S3_ENDPOINT, S3_REGION, S3_BUCKET, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY for media.
+- Stable TOKEN_ENCRYPTION_KEY for connected account credentials.
+- Production INNGEST_EVENT_KEY and INNGEST_SIGNING_KEY. Sync the deployed
+  `/api/inngest` endpoint in Inngest so its cron and event functions actually run.
+  A Vercel deployment alone does not run the scheduled worker.
+
+Deploy the changes, then open Automation, choose the brand's LinkedIn account,
+and enable autopilot. Resume workspace publishing if paused. Disabling autopilot
+cancels its queued schedules; it does not delete published posts. Normal manual
+posts retain their individual approval workflow. The autopilot worker records
+standing authorization in each generated post's approval and audit records.
+
+The planner creates one durable generation job per brand/account/time slot.
+Generation is idempotent at the database level, caches its generated copy before
+rendering, applies existing text/storage/scheduling limits, and rechecks settings
+before scheduling. Publishing rechecks pause, account consent and autopilot
+settings immediately before the provider request. Missed slots are skipped;
+ambiguous external results require reconciliation and are never blindly retried.
+LinkedIn token expiry still requires reconnection. Production end-to-end operation
+must be verified with configured providers and a registered Inngest app.
