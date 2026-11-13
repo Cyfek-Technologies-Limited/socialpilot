@@ -135,3 +135,5 @@
 .marketing footer .soville-brand{font-size:21px}
 .legal-brand{margin-bottom:30px}.app-footer .soville-brand{font-size:14px}
 .autopilot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:20px;margin-bottom:22px}.autopilot-card{margin-bottom:0}.autopilot-card .badge svg{margin-right:5px}.autopilot-card .card-heading h2{margin-top:14px;font-size:21px}.autopilot-schedule{display:flex;align-items:center;gap:12px;background:#eee5ff;border:1px solid #d9c6f6;color:#603296;border-radius:10px;padding:16px;margin:10px 0 20px}.autopilot-schedule small{display:block;margin-top:4px;color:#654e78}.autopilot-card label>span{display:flex;align-items:center;gap:6px}.autopilot-caption{display:block;color:#6f627b;line-height:1.7;margin-top:12px}.autopilot-card .notice{margin:14px 0}
+
+.editor-tools{display:flex;flex-wrap:wrap;gap:6px}.editor-tools>span{flex-basis:100%}.ig-caption{white-space:pre-wrap;overflow-wrap:anywhere}
