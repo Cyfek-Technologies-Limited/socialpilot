@@ -267,3 +267,7 @@ settings immediately before the provider request. Missed slots are skipped;
 ambiguous external results require reconciliation and are never blindly retried.
 LinkedIn token expiry still requires reconnection. Production end-to-end operation
 must be verified with configured providers and a registered Inngest app.
+
+## Content inspiration
+
+Brands now support reference links, pasted captions and up to three PNG/JPEG/WebP screenshots. Links are saved for reference and are not scraped. Analyze examples to propose a style guide, edit the guide, then save and enable it. Only the enabled guide and desired qualities are passed to monthly plans, caption rewrites and future Autopilot generations. References are not business facts. Existing posts are not regenerated automatically. Screenshots are resized client-side and sent as inline image inputs for analysis; screenshot data is not persisted. Screenshot analysis requires an image-capable OPENAI_TEXT_MODEL.
