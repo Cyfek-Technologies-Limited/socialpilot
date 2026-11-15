@@ -1,7 +1,8 @@
+import { parseChannelReference, channelReferenceHelp } from './channel-reference';
 import { z } from 'zod';
 const https=z.url().refine(s=>new URL(s).protocol==='https:');
 export const sourceSchema=z.object({id:z.string().min(1).max(100),title:z.string().min(1).max(300),url:https,channel:z.string().max(200),channelId:z.string().max(100).optional(),publishedAt:z.iso.datetime().optional(),capturedAt:z.iso.datetime(),views:z.number().nonnegative().optional(),comments:z.array(z.string().max(1000)).max(20).default([]),first3Seconds:z.string().max(500).default(''),origin:z.enum(['youtube','manual']),baselineRatio:z.number().nonnegative().optional()});
-export const researchSettingsSchema=z.object({query:z.string().min(3).max(150),competitors:z.array(z.string().regex(/^UC[\w-]{22}$/)).max(3).default([]),daily:z.boolean().default(false),emailReports:z.boolean().default(false)});
+export const researchSettingsSchema=z.object({query:z.string().min(3).max(150),competitors:z.array(z.string().trim().max(500).refine(value=>parseChannelReference(value)!==null,channelReferenceHelp)).max(3).default([]),daily:z.boolean().default(false),emailReports:z.boolean().default(false)});
 export const insightSchema=z.object({title:z.string().max(200),detail:z.string().max(1200),sourceIds:z.array(z.string()).min(1).max(12)});
 export const analysisSchema=z.object({summary:z.string().max(2000),themes:z.array(insightSchema).max(8),questions:z.array(insightSchema).max(10),hooks:z.array(z.object({sourceId:z.string(),hypothesis:z.string().max(1000)})).max(12),angles:z.array(insightSchema).max(12)});
 export const researchSchema=z.object({generatedAt:z.iso.datetime(),sources:z.array(sourceSchema).max(40),warnings:z.array(z.string()).max(20),analysis:analysisSchema});

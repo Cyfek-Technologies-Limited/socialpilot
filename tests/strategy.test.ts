@@ -1,9 +1,29 @@
 import { describe,it,expect,vi,afterEach } from 'vitest';
 import { validateEvidence,hookEvidence,productionSchema,researchContext,sourceSchema } from '../src/lib/strategy/schema';
-import { discoverYouTube } from '../src/lib/strategy/youtube';
+import { discoverYouTube,resolveChannelReferences } from '../src/lib/strategy/youtube';
+import { parseChannelReference } from '../src/lib/strategy/channel-reference';
+import { researchSettingsSchema } from '../src/lib/strategy/schema';
 const source=sourceSchema.parse({id:'s1',title:'The title is not the spoken hook',channel:'Creator',url:'https://example.com/post',origin:'manual',capturedAt:'2026-11-14T10:00:00Z'});
 afterEach(()=>{vi.unstubAllEnvs();vi.unstubAllGlobals();});
 describe('sourced strategy',()=>{
+ it('accepts the channel URL from the reported error and common channel formats',()=>{
+   expect(parseChannelReference('https://www.youtube.com/@raroque')).toEqual({forHandle:'@raroque'});
+   expect(parseChannelReference('youtube.com/@raroque/videos')).toEqual({forHandle:'@raroque'});
+   expect(parseChannelReference('@raroque')).toEqual({forHandle:'@raroque'});
+   expect(parseChannelReference('https://youtube.com/user/Google')).toEqual({forUsername:'Google'});
+   expect(researchSettingsSchema.safeParse({query:'website development',competitors:['https://www.youtube.com/@raroque']}).success).toBe(true);
+   expect(parseChannelReference('https://youtube.com.attacker.example/@creator')).toBeNull();
+   expect(parseChannelReference('https://www.youtube.com/watch?v=abc')).toBeNull();
+ });
+ it('resolves handles using the official channel lookup and deduplicates resolved IDs',async()=>{
+   const id='UC'+'a'.repeat(22);const fetcher=vi.fn().mockResolvedValue(Response.json({items:[{id}]}));vi.stubGlobal('fetch',fetcher);
+   expect(await resolveChannelReferences(['https://www.youtube.com/@raroque',id])).toEqual([id]);
+   const url=new URL(fetcher.mock.calls[0][0]);expect(url.pathname).toBe('/youtube/v3/channels');expect(url.searchParams.get('forHandle')).toBe('@raroque');
+ });
+ it('returns an actionable error when a handle does not resolve',async()=>{
+   vi.stubGlobal('fetch',vi.fn().mockResolvedValue(Response.json({items:[]})));
+   await expect(resolveChannelReferences(['@doesnotexist'])).rejects.toThrow('YouTube channel not found: @doesnotexist');
+ });
  it('rejects invented source references instead of displaying them as evidence',()=>{
    expect(()=>validateEvidence({summary:'Test',themes:[{title:'A theme',detail:'Claim',sourceIds:['invented']}],questions:[],angles:[],hooks:[]},[source])).toThrow('unsupported');
  });

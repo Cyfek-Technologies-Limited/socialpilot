@@ -1,3 +1,4 @@
+import { parseChannelReference, channelReferenceHelp } from './channel-reference';
 import 'server-only';
 import { sourceSchema, type ResearchSource } from './schema';
 async function api(path:string,params:Record<string,string>){
@@ -6,8 +7,13 @@ async function api(path:string,params:Record<string,string>){
  if(!response.ok)throw new Error(`YouTube ${path} unavailable (${response.status}). Check API key, quota and access.`);
  return response.json();
 }
+export async function resolveChannelReferences(references:string[]){
+ const ids:string[]=[];for(const reference of references){const parsed=parseChannelReference(reference);if(!parsed)throw new Error('Invalid channel: '+channelReferenceHelp);if('id' in parsed){ids.push(parsed.id);continue;}const result=await api('channels',{part:'id',...parsed});const id=result.items?.[0]?.id;if(typeof id!=='string'||!/^UC[\w-]{22}$/.test(id))throw new Error('YouTube channel not found: '+reference+'. Check the handle or use its channel ID.');ids.push(id);}
+ return [...new Set(ids)];
+}
 export async function discoverYouTube(query:string,competitors:string[],now=new Date()):Promise<{sources:ResearchSource[];warnings:string[]}>{
  if(!process.env.YOUTUBE_API_KEY)throw new Error('Setup required: add YOUTUBE_API_KEY for live niche research, or add manual evidence.');
+ competitors=await resolveChannelReferences(competitors);
  const searches=await Promise.all([{q:query,order:'viewCount'},...competitors.map(channelId=>({channelId,order:'date'}))].map(params=>api('search',{...params,part:'snippet',type:'video',maxResults:'12',publishedAfter:new Date(now.getTime()-30*86400000).toISOString()})));
  const ids=[...new Set<string>(searches.flatMap(data=>data.items.map((v:{id:{videoId:string}})=>v.id.videoId)))];
  if(!ids.length)return {sources:[],warnings:['No matching videos found in the last 30 days. Try a broader niche.']};

@@ -87,7 +87,7 @@ export const drain=inngest.createFunction({id:'drain-outbox',concurrency:{limit:
   return ids;
 });
 export const generate=inngest.createFunction({id:'generation',retries:3,concurrency:[{limit:4},{limit:1,key:'event.data.id'}],onFailure:async({event})=>{
-  const id=String(event.data.event.data.id);await db.$transaction([db.backgroundJob.updateMany({where:{id,status:{not:'DONE'}},data:{status:'FAILED',error:'Generation failed after durable retries. Check provider setup and retry.'}}),db.usageEvent.updateMany({where:{key:{in:[`job:${id}`,`storage:${id}`]},status:'RESERVED'},data:{status:'RELEASED'}})]);
+  const id=String(event.data.event.data.id);const previous=await db.backgroundJob.findUnique({where:{id},select:{error:true}});await db.$transaction([db.backgroundJob.updateMany({where:{id,status:{not:'DONE'}},data:{status:'FAILED',error:previous?.error||'Generation failed after durable retries. Check provider setup and retry.'}}),db.usageEvent.updateMany({where:{key:{in:[`job:${id}`,`storage:${id}`]},status:'RESERVED'},data:{status:'RELEASED'}})]);
 }},{event:'app/job'},async({event,step})=>{
   const id=String(event.data.id);
   const claimed=await step.run('claim',()=>db.backgroundJob.updateMany({where:{id,status:'PENDING'},data:{status:'RUNNING'}}));if(!claimed.count)return {skipped:true};
