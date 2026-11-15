@@ -29,6 +29,28 @@ Official references:
 
 ## Remaining integrations and limits
 
-Live TikTok/Instagram/LinkedIn competitor feeds, arbitrary third-party video transcripts, automatic engagement analytics, DM handling, cross-platform video/carousel publishing, voiceover production and automatic revenue attribution are **not implemented by this change**. They require additional supported providers, permissions, and implementation. YouTube caption downloads require permission to edit the source video; an API key alone does not unlock arbitrary third-party transcripts. LinkedIn analytics requires additional approved permissions beyond the personal-posting scopes currently connected. No live YouTube requests, emails or social publications were made during development.
+TikTok and LinkedIn public-post discovery now have Apify adapters, and X has a recent-search adapter, requiring their configured credentials. Instagram competitor feeds, arbitrary third-party video transcripts, automatic engagement analytics, DM handling, cross-platform video/carousel publishing, voiceover production and automatic revenue attribution remain **not implemented**. They require additional supported providers, permissions, and implementation. YouTube caption downloads require permission to edit the source video; an API key alone does not unlock arbitrary third-party transcripts. LinkedIn analytics requires additional approved permissions beyond the personal-posting scopes currently connected. No live YouTube requests, emails or social publications were made during development.
 
 The original video was left unchanged. Analysis artifacts live in the ignored work/strategy-reference folder.
+
+## Multiple research and calendar platforms
+
+Select YouTube, TikTok, LinkedIn and/or X in Research & Strategy. Every provider receives the same saved niche query. Results preserve source text, URLs and available views/engagement. Findings compare performance within bounded platform samples; counts alone do not prove causation or global virality. TikTok uses a past-month, most-liked video search. LinkedIn uses a past-month public-post keyword search. X uses its seven-day recent-search endpoint. Missing provider access is shown explicitly.
+
+New calendars require research and pin its snapshot to the generation request. Choose one or several target platforms: the post count is the total distributed across the selected platforms. YouTube/TikTok items require a topic, first-three-second hook, narration and shot list. LinkedIn gets developed text posts; X gets short posts validated with twitter-text against the standard weighted 280-character limit, including hashtags and links. Drafts keep their evidence links even if research is refreshed later. Publishing support is separate from research/drafting access.
+
+Calendar → Clear all requires an owner/admin confirmation. It clears generated unpublished plan posts across all months for the selected brand and cancels pending/running plan jobs, preventing cleared jobs from recreating content. Published posts, posts with delivery attempts, processing/reconciliation records, manual posts and Autopilot posts are retained. Regeneration opens the normal research-backed planning form.
+
+### Apify setup for TikTok and LinkedIn
+
+1. Create an account at https://console.apify.com/.
+2. Open Settings → API & Integrations and create a personal token for Soville. Keep it private.
+3. Enable access to clockworks/tiktok-scraper and yugenox/linkedin-post-search in your account; accept any required actor pricing/permissions and provide credits if required. No LinkedIn cookies or personal login are passed by this integration.
+4. Add APIFY_API_TOKEN to Vercel Production, then redeploy.
+5. Select TikTok/LinkedIn in Research & Strategy and save. Each provider run requests 12 results and sets a maximum total charge of USD 0.50; actual provider pricing and available quota apply. Set an account-level budget before enabling daily research at scale. Provider run IDs are saved so retries resume existing runs instead of intentionally starting duplicates. An unconfirmed start requires checking the provider run before making a fresh request.
+
+Sources: https://docs.apify.com/integrations/api ; https://apify.com/clockworks/tiktok-scraper ; https://apify.com/yugenox/linkedin-post-search ; https://docs.apify.com/api/v2/actors-runs-post
+
+### X setup
+
+Create an app in https://console.x.com/ (or the developer console linked by https://docs.x.com/), enable the access/credits needed for recent post search, and obtain its bearer token. Store it as X_BEARER_TOKEN in Vercel Production. Redeploy, select X in Research & Strategy, and save. Read access for search is separate from permission to publish. Official endpoint: https://docs.x.com/x-api/posts/search-recent-posts

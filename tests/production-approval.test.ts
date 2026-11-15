@@ -6,7 +6,7 @@ vi.mock('../src/lib/db',()=>({db:{platformPost:{findFirst:mocks.find,findFirstOr
 vi.mock('../src/lib/usage',async()=>{const {db}=await import('../src/lib/db');return {serial:async(fn:(tx:unknown)=>unknown)=>fn(db),reserve:vi.fn(),throttle:vi.fn()};});
 import { POST } from '../src/app/api/app/route';
 const kit={format:'carousel',sourceIds:[],carousel:Array(3).fill({title:'Useful slide',body:'Practical advice.'})};
-const current=()=>({id:'post',version:7,workspaceId:'w',contentItemId:'content',caption:'Caption',hashtags:'',mediaId:null,approvalState:'APPROVED',deliveryState:'SCHEDULED',scheduledAt:new Date(),account:{platform:'linkedin',status:'CONNECTED',mode:'live',autoPublishConsentAt:new Date()},approvals:[{version:7}],contentItem:{graphicBrief:JSON.stringify({production:kit}),brand:{paused:false,preferences:{}}}});
+const current=()=>({id:'post',version:7,workspaceId:'w',platform:'linkedin',contentItemId:'content',caption:'Caption',hashtags:'',mediaId:null,approvalState:'APPROVED',deliveryState:'SCHEDULED',scheduledAt:new Date(),account:{platform:'linkedin',status:'CONNECTED',mode:'live',autoPublishConsentAt:new Date()},approvals:[{version:7}],contentItem:{graphicBrief:JSON.stringify({production:kit}),brand:{paused:false,preferences:{}}}});
 beforeEach(()=>{vi.clearAllMocks();vi.stubEnv('APP_MODE','live');mocks.find.mockResolvedValue(current());mocks.update.mockResolvedValue({id:'post'});});
 function request(body:Record<string,unknown>){return new Request('https://example.com/api/app',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({workspaceId:'w',...body})});}
 describe('production assets and publishing approval',()=>{

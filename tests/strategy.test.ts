@@ -38,7 +38,7 @@ describe('sourced strategy',()=>{
  });
  it('passes concise sourced findings to generation without duplicating raw comments',()=>{
    const context=researchContext({research:{generatedAt:'2026-11-14T10:00:00Z',sources:[{...source,comments:['Private reference text']}],warnings:[],analysis:{summary:'Observed evidence',themes:[],questions:[],angles:[],hooks:[]}}});
-   expect(context?.sources[0]).toEqual({id:source.id,title:source.title,url:source.url});
+   expect(context?.sources[0]).toEqual(expect.objectContaining({id:source.id,title:source.title,url:source.url,origin:'manual'}));
    expect(JSON.stringify(context)).not.toContain('Private reference text');
  });
  it('requires a live data key instead of fabricating trend results',async()=>{

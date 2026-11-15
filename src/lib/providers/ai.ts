@@ -1,8 +1,9 @@
+import { contentPlatformSchema } from '../content-platforms';
 import { productionSchema } from '../strategy/schema';
 import 'server-only';
 import { z } from 'zod';
 import { required } from '../config';
-export const planSchema=z.object({items:z.array(z.object({topic:z.string().min(1).max(200),category:z.enum(['educational','promotional','community','informational']),audience:z.string().max(1000),objective:z.string().max(500),caption:z.string().min(1).max(2100),cta:z.string().max(200),graphicBrief:z.string().max(1500),production:productionSchema.optional(),platform:z.enum(['instagram','linkedin'])})).min(1).max(31)});
+export const planSchema=z.object({items:z.array(z.object({topic:z.string().min(1).max(200),category:z.enum(['educational','promotional','community','informational']),audience:z.string().max(1000),objective:z.string().max(500),caption:z.string().min(1).max(2100),cta:z.string().max(200),graphicBrief:z.string().max(1500),production:productionSchema.optional(),platform:contentPlatformSchema})).min(1).max(31)});
 export interface TextProvider { generate(system:string,input:unknown,images?:string[]):Promise<string>; }
 export const textProvider:TextProvider={async generate(system,input,images){
   const res=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',signal:AbortSignal.timeout(60000),headers:{Authorization:`Bearer ${required('OPENAI_API_KEY')}`,'Content-Type':'application/json'},body:JSON.stringify({model:required('OPENAI_TEXT_MODEL'),messages:[{role:'system',content:system},{role:'user',content:images?.length?[{type:'text',text:JSON.stringify(input)},...images.map(url=>({type:'image_url',image_url:{url,detail:'auto'}}))]:JSON.stringify(input)}],response_format:{type:'json_object'}})});
